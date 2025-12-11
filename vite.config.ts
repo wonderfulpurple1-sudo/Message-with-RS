@@ -4,17 +4,22 @@ import react from '@vitejs/plugin-react';
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => {
   // Load env file based on `mode` in the current working directory.
-  // Gunakan '.' sebagai path, lebih aman daripada process.cwd() untuk menghindari isu tipe
-  const env = loadEnv(mode, '.', '');
+  const env = loadEnv(mode, process.cwd(), '');
   
   return {
     plugins: [react()],
-    // PENTING: Gunakan './' agar path aset bersifat relatif.
-    // Ini memungkinkan aplikasi berjalan di sub-folder (GitHub Pages) maupun root (Netlify).
+    // Menggunakan './' membuat aset bersifat relatif.
+    // Ini krusial agar aplikasi bisa berjalan baik di root domain (Netlify) 
+    // maupun sub-path (GitHub Pages: user.github.io/repo/).
     base: './',
     define: {
-      // Mengganti 'process.env.API_KEY' di kode dengan nilai string sebenarnya saat build
+      // Inject variable process.env.API_KEY agar tersedia di klien
+      // Mengambil dari .env (local) atau Environment Variables Dashboard (Netlify)
       'process.env.API_KEY': JSON.stringify(env.API_KEY || process.env.API_KEY)
+    },
+    build: {
+      outDir: 'dist',
+      assetsDir: 'assets',
     }
   };
 });

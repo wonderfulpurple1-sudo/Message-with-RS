@@ -8,18 +8,20 @@ export default defineConfig(({ mode }) => {
   
   return {
     plugins: [react()],
-    // Menggunakan './' membuat aset bersifat relatif.
-    // Ini krusial agar aplikasi bisa berjalan baik di root domain (Netlify) 
-    // maupun sub-path (GitHub Pages: user.github.io/repo/).
+    // PENTING: Menggunakan './' membuat semua link aset (JS/CSS) bersifat relatif terhadap file HTML.
+    // Ini memungkinkan aplikasi berjalan di:
+    // 1. Netlify (https://domain-anda.com/)
+    // 2. GitHub Pages (https://user.github.io/nama-repo/)
     base: './',
     define: {
-      // Inject variable process.env.API_KEY agar tersedia di klien
-      // Mengambil dari .env (local) atau Environment Variables Dashboard (Netlify)
+      // Inject API Key dari Environment Variables ke dalam kode klien saat build
       'process.env.API_KEY': JSON.stringify(env.API_KEY || process.env.API_KEY)
     },
     build: {
       outDir: 'dist',
       assetsDir: 'assets',
+      // Pastikan direktori output bersih sebelum build
+      emptyOutDir: true,
     }
   };
 });

@@ -1,0 +1,5 @@
+{
+  "name": "Copy of Copy of Sistem Informasi Akuntansi RS Terpadu",
+  "description": "A centralized Hospital Information System interface that uses Gemini as a Coordinator to delegate tasks to specialized sub-agents (Patient Management, Scheduling, Records, Billing).",
+  "requestFramePermissions": []
+}
